@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Zayn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #ff0055; --bg: #050505; --glass: rgba(255, 255, 255, 0.05); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); font-family: 'Orbitron', sans-serif; color: white; overflow: hidden; }
+        canvas { position: absolute; top: 0; left: 0; z-index: 1; }
+        .wrapper { position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
+        .card { background: var(--glass); backdrop-filter: blur(25px); border: 1px solid rgba(255, 0, 85, 0.3); padding: 40px; border-radius: 20px; text-align: center; width: 85%; max-width: 450px; box-shadow: 0 0 40px rgba(255, 0, 85, 0.1); transition: all 0.6s ease; opacity: 0; }
+        h1 { font-size: 1.2rem; letter-spacing: 2px; color: var(--neon); text-shadow: 0 0 15px var(--neon); margin-bottom: 20px; text-transform: uppercase; }
+        p { font-size: 0.95rem; line-height: 1.8; color: #ddd; margin-bottom: 25px; }
+        .btn { padding: 12px 30px; background: transparent; border: 2px solid var(--neon); color: var(--neon); font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; border-radius: 5px; }
+        .btn:hover { background: var(--neon); color: white; box-shadow: 0 0 30px var(--neon); }
+        input { background: rgba(255,255,255,0.1); border: 1px solid var(--neon); color: white; padding: 12px; border-radius: 5px; text-align: center; margin-bottom: 15px; width: 80%; outline: none; font-family: 'Orbitron', sans-serif; }
+        .hidden { display: none !important; }
+        .visible { display: block !important; opacity: 1 !important; }
+        .heart-peak { font-size: 60px; animation: pulse 1s infinite; margin-bottom: 15px; display: inline-block; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+    </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<audio id="mainMusic" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+</audio>
+
+<div class="wrapper">
+    <div id="s1" class="card visible">
+        <h1>Private Vault</h1>
+        <p>Entry for <strong>Zayn</strong>.<br>Turn up your volume.</p>
+        <button class="btn" onclick="startJourney()">Initialize Stream</button>
+    </div>
+
+    <div id="s2" class="card hidden">
+        <h1>THE START</h1>
+        <p>Since July 31st, 2025, you've been my absolute favorite person.</p>
+        <button class="btn" onclick="next(2)">Next Memory</button>
+    </div>
+
+    <div id="s3" class="card hidden">
+        <h1>NO DISTANCE</h1>
+        <p>Miles mean nothing when your heart is my home.</p>
+        <button class="btn" onclick="next(3)">Continue</button>
+    </div>
+
+    <div id="s4" class="card hidden">
+        <h1>MY BILLU</h1>
+        <p>You’re my safe place. I’m so lucky to have you.</p>
+        <button class="btn" onclick="next(4)">More...</button>
+    </div>
+
+    <div id="s5" class="card hidden">
+        <h1>UNCONDITIONAL</h1>
+        <p>I LOVE YOUR VOICE, UR PERSONALITY ND EVERYSINGLE THING ABOUT U.</p>
+        <button class="btn" onclick="next(5)">Keep Going</button>
+    </div>
+
+    <div id="s6" class="card hidden">
+        <h1>A PROMISE</h1>
+        <p>I'm never letting go. I'm always going to be by your side.</p>
+        <button class="btn" onclick="next(6)">One Last Step</button>
+    </div>
+
+    <div id="s7" class="card hidden">
+        <h1>SECURITY</h1>
+        <p>Type "I love you too" to unlock the finale.</p>
+        <input type="text" id="passInput" placeholder="...">
+        <br>
+        <button class="btn" onclick="checkPass()">Unlock</button>
+    </div>
+
+    <div id="s8" class="card hidden">
+        <h1>FOREVER</h1>
+        <p>I love you more than all the stars in the sky, Zayn.</p>
+        <button class="btn" onclick="next(8)">A Message?</button>
+    </div>
+
+    <div id="s9" class="card hidden">
+        <div class="heart-peak">❤️</div>
+        <h1 style="text-transform: none;">Promise Me Your Never Gonna Leave Me Coz ILYSMM🥹</h1>
+        <p>Always and forever, your Billu.</p>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('stars');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let stars = [];
+    let isHeartMode = false;
+
+    for(let i=0; i<100; i++) {
+        stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*2 + 1, speed: Math.random()*0.5 + 0.2 });
+    }
+
+    function drawHeart(x, y) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.bezierCurveTo(x, y - 3, x - 5, y - 3, x - 5, y);
+        ctx.bezierCurveTo(x - 5, y + 3, x, y + 5, x, y + 9);
+        ctx.bezierCurveTo(x, y + 5, x + 5, y + 3, x + 5, y);
+        ctx.bezierCurveTo(x + 5, y - 3, x, y - 3, x, y);
+        ctx.fill();
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = isHeartMode ? "rgba(255, 0, 85, 0.8)" : "white";
+        stars.forEach(s => {
+            if (isHeartMode) { drawHeart(s.x, s.y); } 
+            else { ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill(); }
+            s.y -= s.speed;
+            if(s.y < 0) s.y = canvas.height;
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    function startJourney() {
+        document.getElementById('mainMusic').play().catch(() => {});
+        next(1);
+    }
+
+    function next(num) {
+        const current = document.getElementById('s' + num);
+        const following = document.getElementById('s' + (num + 1));
+        if (num === 8) isHeartMode = true; 
+        current.style.opacity = '0';
+        setTimeout(() => {
+            current.classList.add('hidden');
+            current.classList.remove('visible');
+            following.classList.remove('hidden');
+            following.classList.add('visible');
+        }, 600);
+    }
+
+    function checkPass() {
+        const val = document.getElementById('passInput').value.toLowerCase();
+        if(val.includes("i love you too")) { next(7); } 
+        else { alert("Try again, Billu! ❤️"); }
+    }
+</script>
+</body>
+</html>
